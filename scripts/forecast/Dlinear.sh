@@ -179,7 +179,7 @@ fi
 for random_seed in 2021
 do
 
-for seq_len in 12
+for seq_len in 12 336
 do
 
 if [ $seq_len==12 ]

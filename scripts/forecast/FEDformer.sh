@@ -21,7 +21,7 @@ fi
 for pred_len in 96
 do
 
-model_name=Transformer
+model_name=FEDformer
 model_id=$model_name
 
 python -u run.py \
@@ -179,7 +179,7 @@ fi
 for random_seed in 2021
 do
 
-for seq_len in 12 336
+for seq_len in 12
 do
 
 if [ $seq_len==12 ]
@@ -192,7 +192,7 @@ fi
 for pred_len in 12
 do
 
-model_name=Transformer
+model_name=FEDformer
 model_id=$model_name
 
 python -u run.py \

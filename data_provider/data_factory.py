@@ -85,7 +85,8 @@ def data_provider(args, flag):
                 freq=freq,
                 seasonal_patterns=args.seasonal_patterns,
                 model=args.model, 
-                data_missing=args.data_missing
+                data_missing=args.data_missing,
+                date_split=args.date_split
             )
         else:
             data_set = Data(
@@ -98,7 +99,8 @@ def data_provider(args, flag):
                 timeenc=timeenc,
                 freq=freq,
                 seasonal_patterns=args.seasonal_patterns, 
-                data_missing=args.data_missing
+                data_missing=args.data_missing,
+                date_split=args.date_split
             )
             
             

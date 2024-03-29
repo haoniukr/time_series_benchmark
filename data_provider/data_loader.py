@@ -196,7 +196,7 @@ class Dataset_ETT_minute(Dataset):
 class Dataset_Custom(Dataset):
     def __init__(self, root_path, flag='train', size=None,
                  features='S', data_path='ETTh1.csv',
-                 target='OT', scale=True, timeenc=0, freq='h', seasonal_patterns=None, data_missing=None):
+                 target='OT', scale=True, timeenc=0, freq='h', seasonal_patterns=None, data_missing=None, date_split=None):
         # size [seq_len, label_len, pred_len]
         # info
         if size == None:
@@ -222,6 +222,7 @@ class Dataset_Custom(Dataset):
         self.data_path = data_path
         
         self.data_missing = data_missing
+        self.date_split = date_split
         
         self.__read_data__()
 
@@ -240,11 +241,26 @@ class Dataset_Custom(Dataset):
         cols.remove(self.target)
         cols.remove('date')
         df_raw = df_raw[['date'] + cols + [self.target]]
-        num_train = int(len(df_raw) * 0.7)
-        num_test = int(len(df_raw) * 0.2)
-        num_vali = len(df_raw) - num_train - num_test
-        border1s = [0, num_train - self.seq_len, len(df_raw) - num_test - self.seq_len]
-        border2s = [num_train, num_train + num_vali, len(df_raw)]
+        
+        if self.date_split != 'None':
+            self.date_split = self.date_split.replace('S', ' ')
+            self.date_split = self.date_split.split('D')
+            train_start = self.date_split[0]    
+            val_start = self.date_split[1]  
+            test_start = self.date_split[2]
+            print(train_start, val_start, test_start)
+            train_start_index = df_raw[df_raw.date==train_start].index.values[0]
+            val_start_index = df_raw[df_raw.date==val_start].index.values[0]
+            test_start_index = df_raw[df_raw.date==test_start].index.values[0]
+            border1s = [train_start_index, val_start_index - self.seq_len + 1, test_start_index - self.seq_len + 1]
+            border2s = [val_start_index, test_start_index, len(df_raw)]              
+        else:
+            num_train = int(len(df_raw) * 0.7)
+            num_test = int(len(df_raw) * 0.2)
+            num_vali = len(df_raw) - num_train - num_test
+            border1s = [0, num_train - self.seq_len, len(df_raw) - num_test - self.seq_len]
+            border2s = [num_train, num_train + num_vali, len(df_raw)]
+
         border1 = border1s[self.set_type]
         border2 = border2s[self.set_type]
 
@@ -306,7 +322,7 @@ class Dataset_Custom(Dataset):
 class Dataset_Custom_Extension(Dataset):
     def __init__(self, root_path, flag='train', size=None,
                  features='S', data_path='ETTh1.csv',
-                 target='OT', scale=True, timeenc=0, freq='h', seasonal_patterns=None, model=None, data_missing=None):
+                 target='OT', scale=True, timeenc=0, freq='h', seasonal_patterns=None, model=None, data_missing=None, date_split=None):
         # size [seq_len, label_len, pred_len]
         # info
         if size == None:
@@ -333,6 +349,7 @@ class Dataset_Custom_Extension(Dataset):
         
         self.data_missing = data_missing
         self.model = model
+        self.date_split = date_split
         
         self.__read_data__()
 
@@ -351,11 +368,26 @@ class Dataset_Custom_Extension(Dataset):
         cols.remove(self.target)
         cols.remove('date')
         df_raw = df_raw[['date'] + cols + [self.target]]
-        num_train = int(len(df_raw) * 0.7)
-        num_test = int(len(df_raw) * 0.2)
-        num_vali = len(df_raw) - num_train - num_test
-        border1s = [0, num_train - self.seq_len, len(df_raw) - num_test - self.seq_len]
-        border2s = [num_train, num_train + num_vali, len(df_raw)]
+        
+        if self.date_split != 'None':
+            self.date_split = self.date_split.replace('S', ' ')
+            self.date_split = self.date_split.split('D')
+            train_start = self.date_split[0]    
+            val_start = self.date_split[1]  
+            test_start = self.date_split[2]
+            print(train_start, val_start, test_start)
+            train_start_index = df_raw[df_raw.date==train_start].index.values[0]
+            val_start_index = df_raw[df_raw.date==val_start].index.values[0]
+            test_start_index = df_raw[df_raw.date==test_start].index.values[0]
+            border1s = [train_start_index, val_start_index - self.seq_len + 1, test_start_index - self.seq_len + 1]
+            border2s = [val_start_index, test_start_index, len(df_raw)]               
+        else:
+            num_train = int(len(df_raw) * 0.7)
+            num_test = int(len(df_raw) * 0.2)
+            num_vali = len(df_raw) - num_train - num_test
+            border1s = [0, num_train - self.seq_len, len(df_raw) - num_test - self.seq_len]
+            border2s = [num_train, num_train + num_vali, len(df_raw)]
+        
         border1 = border1s[self.set_type]
         border2 = border2s[self.set_type]
         

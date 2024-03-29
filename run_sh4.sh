@@ -18,7 +18,7 @@ else
   label_len=48
 fi
 
-for pred_len in 12
+for pred_len in 96
 do
 
 model_name=MegaCRN
@@ -50,8 +50,6 @@ python -u run.py \
   --train_epochs 200 \
   --patience 10 \
   --data_missing \
-  --loss_type mae \
-  --loss_inverse \
   --itr 1 >logs/Forecasting/metr-la_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log
 
 done

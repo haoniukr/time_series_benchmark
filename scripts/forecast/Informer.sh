@@ -21,7 +21,7 @@ fi
 for pred_len in 96
 do
 
-model_name=Transformer
+model_name=Informer
 model_id=$model_name
 
 python -u run.py \
@@ -192,7 +192,7 @@ fi
 for pred_len in 12
 do
 
-model_name=Transformer
+model_name=Informer
 model_id=$model_name
 
 python -u run.py \

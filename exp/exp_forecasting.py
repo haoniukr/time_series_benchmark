@@ -414,10 +414,14 @@ class Exp_Forecast(Exp_Basic):
         self.metric_save = [self.val_loss_min_save, mse, mae, mape]
         
         result_columns = ["data", "model_id", "num_networks", "random_seed", "seq_len", "pred_len", "vail_loss", "mse", "mae", "mape",
-                          "mse_ori", "mae_ori", "mape_ori", "mse_perstep", "mae_perstep6", "mape_perstep", "mse_perstep_ori", "mae_perstep_ori", "mape_perstep_ori",
+                          "mse_ori", "mae_ori", "mape_ori", "mse_perstep", "mae_perstep", "mape_perstep", "mse_perstep_ori", "mae_perstep_ori", "mape_perstep_ori",
                           "train_epochs", "total_params", "train_time", "test_time", "args"]
-        self.df = pd.DataFrame([[self.args.data_path[:-4],self.args.model_id, self.args.num_networks, self.args.random_seed, self.args.seq_len, self.args.pred_len] + self.metric_save + [mse_ori, mae_ori, mape_ori, mse_perstep, mae_perstep, mape_perstep, mse_perstep_ori, mae_perstep_ori, mape_perstep_ori] + [self.train_epochs+1, "-", "-", "-"] + [self.args]], columns=result_columns)
         
+        if args.is_training:
+            self.df = pd.DataFrame([[self.args.data_path[:-4],self.args.model_id, self.args.num_networks, self.args.random_seed, self.args.seq_len, self.args.pred_len] + self.metric_save + [mse_ori, mae_ori, mape_ori, mse_perstep, mae_perstep, mape_perstep, mse_perstep_ori, mae_perstep_ori, mape_perstep_ori] + [self.train_epochs+1, "-", "-", "-"] + [self.args]], columns=result_columns)
+        else:
+            self.df = pd.DataFrame([[self.args.data_path[:-4],self.args.model_id, self.args.num_networks, self.args.random_seed, self.args.seq_len, self.args.pred_len] + ['-'] + self.metric_save[1:] + [mse_ori, mae_ori, mape_ori, mse_perstep, mae_perstep, mape_perstep, mse_perstep_ori, mae_perstep_ori, mape_perstep_ori] + ["-", "-", "-", "-"] + [self.args]], columns=result_columns)
+
         
 #         folder_path = './results/' + setting + '/'
 #         if not os.path.exists(folder_path):

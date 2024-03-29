@@ -12,6 +12,7 @@ import random
 import numpy as np
 import pandas as pd
 import time
+import re
 
 if __name__ == '__main__':
 
@@ -102,6 +103,8 @@ if __name__ == '__main__':
     parser.add_argument('--data_missing', action='store_true', help='for missing data', default=False)
     parser.add_argument('--loss_type', type=str, default='mse', help='mse or mae')
     parser.add_argument('--loss_inverse', action='store_true', help='inverse output data', default=False)
+    parser.add_argument('--date_split', type=str, default='None', help='data split based on given date')
+    
 
 
     args = parser.parse_args()
@@ -111,6 +114,7 @@ if __name__ == '__main__':
     torch.manual_seed(fix_seed)
     np.random.seed(fix_seed)
     
+    print(args.date_split)
     
     args.use_gpu = True if torch.cuda.is_available() and args.use_gpu else False
 
@@ -178,12 +182,14 @@ if __name__ == '__main__':
             test_time = end -start
             
             folder_path = "results/" + args.data_path[:-4] + "/" + args.task_name + "/"
+            others_info = re.sub(r'[^a-zA-Z0-9]', '', args.date_split)
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
-            save_path = folder_path + args.model_id + "_" + str(args.random_seed) + "_" + str(args.seq_len) + "_" + str(args.pred_len) + ".csv"
+            save_path = folder_path + args.model_id + "_" + str(args.random_seed) + "_" + str(args.seq_len) + "_" + str(args.pred_len) + others_info + ".csv"
             exp.df.total_params = total_params
             exp.df.train_time = train_time
             exp.df.test_time = test_time
+            exp.df['others_info'] = others_info
             exp.df.to_csv(save_path, index=False)
                         
             torch.cuda.empty_cache()
@@ -211,5 +217,23 @@ if __name__ == '__main__':
 
         exp = Exp(args)  # set experiments
         print('>>>>>>>testing : {}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'.format(setting))
+        
+        total_params = sum(param.numel() for param in exp.model.parameters())
+        
+        start = time.time()
         exp.test(setting, test=1)
+        end = time.time()
+        test_time = end -start
+        
+        folder_path = "results/" + args.data_path[:-4] + "/" + args.task_name + "/"
+        others_info = re.sub(r'[^a-zA-Z0-9]', '', args.date_split)
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+        save_path = folder_path + args.model_id + "_" + str(args.random_seed) + "_" + str(args.seq_len) + "_" + str(args.pred_len) + others_info + ".csv"
+        exp.df.total_params = total_params
+        exp.df.train_time = 0
+        exp.df.test_time = test_time
+        exp.df['others_info'] = others_info
+        exp.df.to_csv(save_path, index=False)
+            
         torch.cuda.empty_cache()

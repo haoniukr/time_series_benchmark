@@ -1,3 +1,8 @@
+Existing models:
+-add in model.py    or self.task_name == 'forecast'
+-revise in exp_basic.py
+ 
+
 
 MegaCRN
 -data format: [B,L,N,2] 2:[value,time_in_day]

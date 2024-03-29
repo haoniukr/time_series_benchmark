@@ -1,11 +1,12 @@
 import os
 import torch
-from models import TimesNet, Nonstationary_Transformer, FEDformer, \
-    Informer, LightTS, Reformer, ETSformer, Pyraformer, PatchTST, MICN, Crossformer, FiLM, \
+from models import Nonstationary_Transformer, \
+    LightTS, Reformer, ETSformer, Pyraformer, PatchTST, Crossformer, FiLM, \
     Koopa, TiDE, FreTS
-from models.transformers import iTransformer, Autoformer, Transformer
+from models.transformers import iTransformer, Autoformer, Transformer, Informer, FEDformer
 from models.linears import DLinear
 from models.gnns import MegaCRN
+from models.cnns import TimesNet, MICN
 
 
 class Exp_Basic(object):

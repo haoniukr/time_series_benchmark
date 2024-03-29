@@ -21,7 +21,7 @@ fi
 for pred_len in 96
 do
 
-model_name=Transformer
+model_name=TimesNet
 model_id=$model_name
 
 python -u run.py \
@@ -36,15 +36,16 @@ python -u run.py \
   --seq_len $seq_len \
   --label_len $label_len \
   --pred_len $pred_len \
-  --e_layers 3 \
+  --e_layers 2 \
   --d_layers 1 \
   --factor 3 \
   --enc_in 321 \
   --dec_in 321 \
   --c_out 321 \
   --des 'Exp' \
-  --d_model 512\
+  --d_model 256\
   --d_ff 512\
+  --top_k 5 \
   --learning_rate 0.0001\
   --batch_size 32\
   --train_epochs 10 \
@@ -63,15 +64,16 @@ python -u run.py \
   --seq_len $seq_len \
   --label_len $label_len \
   --pred_len $pred_len \
-  --e_layers 3 \
+  --e_layers 2 \
   --d_layers 1 \
   --factor 3 \
   --enc_in 21 \
   --dec_in 21 \
   --c_out 21 \
   --des 'Exp' \
-  --d_model 512\
-  --d_ff 512\
+  --d_model 32\
+  --d_ff 32\
+  --top_k 5 \
   --learning_rate 0.0001\
   --batch_size 32\
   --train_epochs 10 \
@@ -90,7 +92,7 @@ python -u run.py \
   --seq_len $seq_len \
   --label_len $label_len \
   --pred_len $pred_len \
-  --e_layers 3 \
+  --e_layers 2 \
   --d_layers 1 \
   --factor 3 \
   --enc_in 862 \
@@ -117,15 +119,16 @@ python -u run.py \
   --seq_len $seq_len \
   --label_len $label_len \
   --pred_len $pred_len \
-  --e_layers 3 \
+  --e_layers 2 \
   --d_layers 1 \
   --factor 3 \
   --enc_in 207 \
   --dec_in 207 \
   --c_out 207 \
   --des 'Exp' \
-  --d_model 512\
+  --d_model 256\
   --d_ff 512\
+  --top_k 5 \
   --learning_rate 0.0001\
   --batch_size 32\
   --train_epochs 10 \
@@ -145,15 +148,16 @@ python -u run.py \
   --seq_len $seq_len \
   --label_len $label_len \
   --pred_len $pred_len \
-  --e_layers 3 \
+  --e_layers 2 \
   --d_layers 1 \
   --factor 3 \
   --enc_in 325 \
   --dec_in 325 \
   --c_out 325 \
   --des 'Exp' \
-  --d_model 512\
+  --d_model 256\
   --d_ff 512\
+  --top_k 5 \
   --learning_rate 0.0001\
   --batch_size 32\
   --train_epochs 10 \
@@ -192,7 +196,7 @@ fi
 for pred_len in 12
 do
 
-model_name=Transformer
+model_name=TimesNet
 model_id=$model_name
 
 python -u run.py \
@@ -207,15 +211,16 @@ python -u run.py \
   --seq_len $seq_len \
   --label_len $label_len \
   --pred_len $pred_len \
-  --e_layers 3 \
+  --e_layers 2 \
   --d_layers 1 \
   --factor 3 \
   --enc_in 321 \
   --dec_in 321 \
   --c_out 321 \
   --des 'Exp' \
-  --d_model 512\
+  --d_model 256\
   --d_ff 512\
+  --top_k 5 \
   --learning_rate 0.0001\
   --batch_size 32\
   --train_epochs 10 \
@@ -236,15 +241,16 @@ python -u run.py \
   --seq_len $seq_len \
   --label_len $label_len \
   --pred_len $pred_len \
-  --e_layers 3 \
+  --e_layers 2 \
   --d_layers 1 \
   --factor 3 \
   --enc_in 21 \
   --dec_in 21 \
   --c_out 21 \
   --des 'Exp' \
-  --d_model 512\
-  --d_ff 512\
+  --d_model 32\
+  --d_ff 32\
+  --top_k 5 \
   --learning_rate 0.0001\
   --batch_size 32\
   --train_epochs 10 \
@@ -265,7 +271,7 @@ python -u run.py \
   --seq_len $seq_len \
   --label_len $label_len \
   --pred_len $pred_len \
-  --e_layers 3 \
+  --e_layers 2 \
   --d_layers 1 \
   --factor 3 \
   --enc_in 862 \
@@ -294,15 +300,16 @@ python -u run.py \
   --seq_len $seq_len \
   --label_len $label_len \
   --pred_len $pred_len \
-  --e_layers 3 \
+  --e_layers 2 \
   --d_layers 1 \
   --factor 3 \
   --enc_in 207 \
   --dec_in 207 \
   --c_out 207 \
   --des 'Exp' \
-  --d_model 512\
+  --d_model 256\
   --d_ff 512\
+  --top_k 5 \
   --learning_rate 0.0001\
   --batch_size 32\
   --train_epochs 10 \
@@ -324,15 +331,16 @@ python -u run.py \
   --seq_len $seq_len \
   --label_len $label_len \
   --pred_len $pred_len \
-  --e_layers 3 \
+  --e_layers 2 \
   --d_layers 1 \
   --factor 3 \
   --enc_in 325 \
   --dec_in 325 \
   --c_out 325 \
   --des 'Exp' \
-  --d_model 512\
+  --d_model 256\
   --d_ff 512\
+  --top_k 5 \
   --learning_rate 0.0001\
   --batch_size 32\
   --train_epochs 10 \
