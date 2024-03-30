@@ -18,17 +18,18 @@ else
   label_len=48
 fi
 
-for pred_len in 12
+for pred_len in 96
 do
 
 model_name=MegaCRN
 model_id=$model_name
-  
+
+#P100
 python -u run.py \
   --task_name forecast \
   --is_training 1 \
   --root_path ../datasets/ \
-  --data_path pems-bay.csv \
+  --data_path weather.csv \
   --model_id $model_id \
   --model $model_name \
   --data custom_extension \
@@ -39,20 +40,17 @@ python -u run.py \
   --e_layers 3 \
   --d_layers 1 \
   --factor 3 \
-  --enc_in 325 \
-  --dec_in 325 \
-  --c_out 325 \
+  --enc_in 21 \
+  --dec_in 21 \
+  --c_out 21 \
   --des 'Exp' \
   --d_model 512\
   --d_ff 512\
   --learning_rate 0.01\
-  --batch_size 16\
+  --batch_size 128\
   --train_epochs 200 \
   --patience 10 \
-  --data_missing \
-  --loss_type mae \
-  --loss_inverse \
-  --itr 1 >logs/Forecasting/pems-bay_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log   
+  --itr 1 >logs/Forecasting/weather_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log  
 
 done
 done
