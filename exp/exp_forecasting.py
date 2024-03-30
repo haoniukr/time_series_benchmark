@@ -273,6 +273,7 @@ class Exp_Forecast(Exp_Basic):
         if test:
             print('loading model')
             self.model.load_state_dict(torch.load(os.path.join('./checkpoints/' + setting, 'checkpoint.pth')))
+            self.scaler_np = StandardScaler(mean=test_data.scaler.mean_, std=np.sqrt(test_data.scaler.var_))
 
         preds = []
         trues = []
