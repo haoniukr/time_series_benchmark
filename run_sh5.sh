@@ -46,10 +46,11 @@ python -u run.py \
   --d_model 512\
   --d_ff 512\
   --learning_rate 0.01\
-  --batch_size 8\
+  --batch_size 32\
   --train_epochs 200 \
   --patience 10 \
   --data_missing \
+  --num_workers 0 \
   --itr 1 >logs/Forecasting/pems-bay_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log   
 
 done
