@@ -11,14 +11,14 @@ class Model(nn.Module):
             nn.Linear(configs.seq_len, configs.pred_len) for _ in range(configs.channel)
         ]) if configs.individual else nn.Linear(configs.seq_len, configs.pred_len)
         
-        self.dropout = nn.Dropout(configs.drop)
+        self.dropout = nn.Dropout(configs.dropout)
         self.rev = RevIN(configs.channel) if configs.rev else None
         self.individual = configs.individual
 
     def forward_loss(self, pred, true):
         return F.mse_loss(pred, true)
 
-    def forward(self, x, y):
+    def forward(self, x, x_mark_enc, x_dec, x_mark_dec, mask=None):
         # x: [B, L, D]
         x = self.rev(x, 'norm') if self.rev else x
         x = self.dropout(x)
@@ -30,4 +30,4 @@ class Model(nn.Module):
             pred = self.Linear(x.transpose(1, 2)).transpose(1, 2)
         pred = self.rev(pred, 'denorm') if self.rev else pred
 
-        return pred, self.forward_loss(pred, y)
+        return pred#, self.forward_loss(pred, y)

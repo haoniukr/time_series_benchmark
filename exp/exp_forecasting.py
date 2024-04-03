@@ -272,7 +272,10 @@ class Exp_Forecast(Exp_Basic):
         test_data, test_loader = self._get_data(flag='test')
         if test:
             print('loading model')
-            self.model.load_state_dict(torch.load(os.path.join('./checkpoints/' + setting, 'checkpoint.pth')))
+            if (self.args.model == 'Historical_Average') or (self.args.model == 'Repeat'):
+                print("No trainable model")
+            else:
+                self.model.load_state_dict(torch.load(os.path.join('./checkpoints/' + setting, 'checkpoint.pth')))
             self.scaler_np = StandardScaler(mean=test_data.scaler.mean_, std=np.sqrt(test_data.scaler.var_))
             self.val_loss_min_save = "-"
 
@@ -304,6 +307,12 @@ class Exp_Forecast(Exp_Basic):
                     if self.args.model == 'MegaCRN':
                         batch_y = batch_y[:, -self.args.pred_len:, :, 0]
 #                         outputs = outputs[:, -self.args.pred_len:, :, 0]
+
+                elif self.args.model == 'Historical_Average':
+                    outputs = torch.mean(batch_x, 1, True).repeat(1, self.args.pred_len, 1)
+                elif self.args.model == 'Repeat':
+                    outputs = batch_x[:, -1:, :].repeat(1, self.args.pred_len, 1)   
+
                 else:
                     if self.args.use_amp:
                         with torch.cuda.amp.autocast():

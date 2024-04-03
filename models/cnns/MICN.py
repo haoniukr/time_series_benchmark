@@ -163,6 +163,9 @@ class Model(nn.Module):
         # embedding
         zeros = torch.zeros([x_dec.shape[0], self.pred_len, x_dec.shape[2]], device=x_enc.device)
         seasonal_init_dec = torch.cat([seasonal_init_enc[:, -self.seq_len:, :], zeros], dim=1)
+        
+        x_mark_dec = torch.cat([x_mark_enc, x_mark_dec[:, -self.pred_len:, :]], dim=1) ################# revised to handle different seq_len and label_len
+        
         dec_out = self.dec_embedding(seasonal_init_dec, x_mark_dec)
         dec_out = self.conv_trans(dec_out)
         dec_out = dec_out[:, -self.pred_len:, :] + trend[:, -self.pred_len:, :]

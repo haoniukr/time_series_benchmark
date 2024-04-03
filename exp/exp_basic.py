@@ -4,7 +4,7 @@ from models import Nonstationary_Transformer, \
     LightTS, Reformer, ETSformer, Pyraformer, PatchTST, Crossformer, FiLM, \
     Koopa, TiDE, FreTS
 from models.transformers import iTransformer, Autoformer, Transformer, Informer, FEDformer
-from models.linears import DLinear
+from models.linears_mlps import DLinear, RLinear, RMLP
 from models.gnns import MegaCRN
 from models.cnns import TimesNet, MICN
 
@@ -32,7 +32,11 @@ class Exp_Basic(object):
             'Koopa': Koopa,
             'TiDE': TiDE,
             'FreTS': FreTS,
-            'MegaCRN': MegaCRN
+            'MegaCRN': MegaCRN,
+            'RLinear': RLinear,
+            'RMLP': RMLP,
+            'Historical_Average': Transformer,
+            'Repeat': Transformer
         }
         self.device = self._acquire_device()
         self.model = self._build_model().to(self.device)

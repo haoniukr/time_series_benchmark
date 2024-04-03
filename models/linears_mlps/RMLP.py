@@ -19,12 +19,13 @@ class Model(nn.Module):
     def forward_loss(self, pred, true):
         return F.mse_loss(pred, true)
 
-    def forward(self, x, y):
+    def forward(self, x, x_mark_enc, x_dec, x_mark_dec, mask=None):
         # x: [B, L, D]
         x = self.rev(x, 'norm') if self.rev else x
         x += self.temporal(x.transpose(1, 2)).transpose(1, 2)
         pred = self.projection(x.transpose(1, 2)).transpose(1, 2)
         pred = self.rev(pred, 'denorm') if self.rev else pred
 
-        return pred, self.forward_loss(pred, y)
+        return pred #, self.forward_loss(pred, y)
         
+

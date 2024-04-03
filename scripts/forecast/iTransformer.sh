@@ -11,15 +11,15 @@ do
 for seq_len in 336
 do
 
-if [ $seq_len==12 ]
+for pred_len in 96
+do
+
+if [ $pred_len -eq 12 ]
 then
   label_len=6
 else
   label_len=48
 fi
-
-for pred_len in 96
-do
 
 model_name=iTransformer
 model_id=$model_name
@@ -182,15 +182,15 @@ do
 for seq_len in 12 336
 do
 
-if [ $seq_len==12 ]
+for pred_len in 12
+do
+
+if [ $pred_len -eq 12 ]
 then
   label_len=6
 else
   label_len=48
 fi
-
-for pred_len in 12
-do
 
 model_name=iTransformer
 model_id=$model_name

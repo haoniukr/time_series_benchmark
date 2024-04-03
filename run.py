@@ -104,6 +104,7 @@ if __name__ == '__main__':
     parser.add_argument('--loss_type', type=str, default='mse', help='mse or mae')
     parser.add_argument('--loss_inverse', action='store_true', help='inverse output data', default=False)
     parser.add_argument('--date_split', type=str, default='None', help='data split based on given date')
+    parser.add_argument('--rev', action='store_true', help='whether to apply RevIN')
     
 
 
@@ -115,6 +116,7 @@ if __name__ == '__main__':
     np.random.seed(fix_seed)
     
     print(args.date_split)
+    args.channel = args.enc_in
     
     args.use_gpu = True if torch.cuda.is_available() and args.use_gpu else False
 
@@ -185,7 +187,7 @@ if __name__ == '__main__':
             others_info = re.sub(r'[^a-zA-Z0-9]', '', args.date_split)
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
-            save_path = folder_path + args.model_id + "_" + str(args.random_seed) + "_" + str(args.seq_len) + "_" + str(args.pred_len) + others_info + ".csv"
+            save_path = folder_path + args.model_id + "_" + str(args.random_seed) + "_" + str(args.seq_len) + "_" + str(args.pred_len) + "_" + others_info + ".csv"
             exp.df.total_params = total_params
             exp.df.train_time = train_time
             exp.df.test_time = test_time

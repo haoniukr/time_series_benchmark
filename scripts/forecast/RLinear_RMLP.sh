@@ -21,10 +21,11 @@ else
   label_len=48
 fi
 
-model_name=MegaCRN
+for model_name in RLinear RMLP
+do
+
 model_id=$model_name
 
-#A100
 python -u run.py \
   --task_name forecast \
   --is_training 1 \
@@ -32,7 +33,7 @@ python -u run.py \
   --data_path electricity.csv \
   --model_id $model_id \
   --model $model_name \
-  --data custom_extension \
+  --data custom \
   --features M \
   --seq_len $seq_len \
   --label_len $label_len \
@@ -46,13 +47,13 @@ python -u run.py \
   --des 'Exp' \
   --d_model 512\
   --d_ff 512\
-  --learning_rate 0.01\
+  --learning_rate 0.001\
   --batch_size 16\
-  --train_epochs 200 \
-  --patience 10 \
+  --train_epochs 10 \
+  --patience 3 \
+  --rev \
   --itr 1 >logs/Forecasting/electricity_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log  
 
-#P100
 python -u run.py \
   --task_name forecast \
   --is_training 1 \
@@ -60,7 +61,7 @@ python -u run.py \
   --data_path weather.csv \
   --model_id $model_id \
   --model $model_name \
-  --data custom_extension \
+  --data custom \
   --features M \
   --seq_len $seq_len \
   --label_len $label_len \
@@ -74,13 +75,13 @@ python -u run.py \
   --des 'Exp' \
   --d_model 512\
   --d_ff 512\
-  --learning_rate 0.01\
+  --learning_rate 0.005\
   --batch_size 128\
-  --train_epochs 200 \
-  --patience 10 \
-  --itr 1 >logs/Forecasting/weather_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log 
-
-#A100
+  --train_epochs 10 \
+  --patience 3 \
+  --rev \
+  --itr 1 >logs/Forecasting/weather_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log  
+  
 python -u run.py \
   --task_name forecast \
   --is_training 1 \
@@ -88,7 +89,7 @@ python -u run.py \
   --data_path traffic.csv \
   --model_id $model_id \
   --model $model_name \
-  --data custom_extension \
+  --data custom \
   --features M \
   --seq_len $seq_len \
   --label_len $label_len \
@@ -102,14 +103,13 @@ python -u run.py \
   --des 'Exp' \
   --d_model 512\
   --d_ff 512\
-  --learning_rate 0.01\
+  --learning_rate 0.001\
   --batch_size 16\
-  --train_epochs 200 \
-  --patience 10 \
-  --num_workers 0 \
+  --train_epochs 10 \
+  --patience 3 \
+  --rev \
   --itr 1 >logs/Forecasting/traffic_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log  
 
-#P100
 python -u run.py \
   --task_name forecast \
   --is_training 1 \
@@ -117,7 +117,7 @@ python -u run.py \
   --data_path metr-la.csv \
   --model_id $model_id \
   --model $model_name \
-  --data custom_extension \
+  --data custom \
   --features M \
   --seq_len $seq_len \
   --label_len $label_len \
@@ -131,14 +131,14 @@ python -u run.py \
   --des 'Exp' \
   --d_model 512\
   --d_ff 512\
-  --learning_rate 0.01\
+  --learning_rate 0.001\
   --batch_size 16\
-  --train_epochs 200 \
-  --patience 10 \
+  --train_epochs 10 \
+  --patience 3 \
   --data_missing \
+  --rev \
   --itr 1 >logs/Forecasting/metr-la_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log
-
-#A100 ? P100?
+  
 python -u run.py \
   --task_name forecast \
   --is_training 1 \
@@ -146,7 +146,7 @@ python -u run.py \
   --data_path pems-bay.csv \
   --model_id $model_id \
   --model $model_name \
-  --data custom_extension \
+  --data custom \
   --features M \
   --seq_len $seq_len \
   --label_len $label_len \
@@ -160,20 +160,23 @@ python -u run.py \
   --des 'Exp' \
   --d_model 512\
   --d_ff 512\
-  --learning_rate 0.01\
-  --batch_size 32\
-  --train_epochs 200 \
-  --patience 10 \
+  --learning_rate 0.001\
+  --batch_size 16\
+  --train_epochs 10 \
+  --patience 3 \
   --data_missing \
-  --num_workers 0 \
+  --rev \
   --itr 1 >logs/Forecasting/pems-bay_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log   
 
 done
 done
 done
+done
 
 
-#P100
+
+
+
 if [ ! -d "./logs" ]; then
     mkdir ./logs
 fi
@@ -197,7 +200,9 @@ else
   label_len=48
 fi
 
-model_name=MegaCRN
+for model_name in RLinear RMLP
+do
+
 model_id=$model_name
 
 python -u run.py \
@@ -207,7 +212,7 @@ python -u run.py \
   --data_path electricity.csv \
   --model_id $model_id \
   --model $model_name \
-  --data custom_extension \
+  --data custom \
   --features M \
   --seq_len $seq_len \
   --label_len $label_len \
@@ -221,12 +226,13 @@ python -u run.py \
   --des 'Exp' \
   --d_model 512\
   --d_ff 512\
-  --learning_rate 0.01\
-  --batch_size 64\
-  --train_epochs 200 \
-  --patience 10 \
+  --learning_rate 0.001\
+  --batch_size 16\
+  --train_epochs 10 \
+  --patience 3 \
   --loss_type mae \
   --loss_inverse \
+  --rev \
   --itr 1 >logs/Forecasting/electricity_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log  
 
 python -u run.py \
@@ -236,7 +242,7 @@ python -u run.py \
   --data_path weather.csv \
   --model_id $model_id \
   --model $model_name \
-  --data custom_extension \
+  --data custom \
   --features M \
   --seq_len $seq_len \
   --label_len $label_len \
@@ -250,12 +256,13 @@ python -u run.py \
   --des 'Exp' \
   --d_model 512\
   --d_ff 512\
-  --learning_rate 0.01\
-  --batch_size 64\
-  --train_epochs 200 \
-  --patience 10 \
+  --learning_rate 0.005\
+  --batch_size 128\
+  --train_epochs 10 \
+  --patience 3 \
   --loss_type mae \
   --loss_inverse \
+  --rev \
   --itr 1 >logs/Forecasting/weather_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log  
   
 python -u run.py \
@@ -265,7 +272,7 @@ python -u run.py \
   --data_path traffic.csv \
   --model_id $model_id \
   --model $model_name \
-  --data custom_extension \
+  --data custom \
   --features M \
   --seq_len $seq_len \
   --label_len $label_len \
@@ -279,12 +286,13 @@ python -u run.py \
   --des 'Exp' \
   --d_model 512\
   --d_ff 512\
-  --learning_rate 0.01\
-  --batch_size 64\
-  --train_epochs 200 \
-  --patience 10 \
+  --learning_rate 0.001\
+  --batch_size 16\
+  --train_epochs 10 \
+  --patience 3 \
   --loss_type mae \
   --loss_inverse \
+  --rev \
   --itr 1 >logs/Forecasting/traffic_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log  
 
 python -u run.py \
@@ -294,7 +302,7 @@ python -u run.py \
   --data_path metr-la.csv \
   --model_id $model_id \
   --model $model_name \
-  --data custom_extension \
+  --data custom \
   --features M \
   --seq_len $seq_len \
   --label_len $label_len \
@@ -308,13 +316,14 @@ python -u run.py \
   --des 'Exp' \
   --d_model 512\
   --d_ff 512\
-  --learning_rate 0.01\
-  --batch_size 64\
-  --train_epochs 200 \
-  --patience 10 \
+  --learning_rate 0.001\
+  --batch_size 16\
+  --train_epochs 10 \
+  --patience 3 \
   --data_missing \
   --loss_type mae \
   --loss_inverse \
+  --rev \
   --itr 1 >logs/Forecasting/metr-la_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log
   
 python -u run.py \
@@ -324,7 +333,7 @@ python -u run.py \
   --data_path pems-bay.csv \
   --model_id $model_id \
   --model $model_name \
-  --data custom_extension \
+  --data custom \
   --features M \
   --seq_len $seq_len \
   --label_len $label_len \
@@ -338,109 +347,17 @@ python -u run.py \
   --des 'Exp' \
   --d_model 512\
   --d_ff 512\
-  --learning_rate 0.01\
-  --batch_size 64\
-  --train_epochs 200 \
-  --patience 10 \
+  --learning_rate 0.001\
+  --batch_size 16\
+  --train_epochs 10 \
+  --patience 3 \
   --data_missing \
   --loss_type mae \
   --loss_inverse \
+  --rev \
   --itr 1 >logs/Forecasting/pems-bay_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log   
 
 done
 done
 done
-
-
-
-# if [ ! -d "./logs" ]; then
-#     mkdir ./logs
-# fi
-# if [ ! -d "./logs/Forecasting" ]; then
-#     mkdir ./logs/Forecasting
-# fi
-
-# for random_seed in 2021
-# do
-
-# for seq_len in 336
-# do
-
-# for pred_len in 12
-# do
-
-# if [ $pred_len -eq 12 ]
-# then
-#   label_len=6
-# else
-#   label_len=48
-# fi
-
-# model_name=MegaCRN
-# model_id=$model_name
-
-# python -u run.py \
-#   --task_name forecast \
-#   --is_training 1 \
-#   --root_path ../datasets/ \
-#   --data_path metr-la.csv \
-#   --model_id $model_id \
-#   --model $model_name \
-#   --data custom_extension \
-#   --features M \
-#   --seq_len $seq_len \
-#   --label_len $label_len \
-#   --pred_len $pred_len \
-#   --e_layers 3 \
-#   --d_layers 1 \
-#   --factor 3 \
-#   --enc_in 207 \
-#   --dec_in 207 \
-#   --c_out 207 \
-#   --des 'Exp' \
-#   --d_model 512\
-#   --d_ff 512\
-#   --learning_rate 0.01\
-#   --batch_size 16\
-#   --train_epochs 200 \
-#   --patience 10 \
-#   --data_missing \
-#   --loss_type mae \
-#   --loss_inverse \
-#   --itr 1 >logs/Forecasting/metr-la_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log
-
-# #loss -> nan
-# python -u run.py \
-#   --task_name forecast \
-#   --is_training 1 \
-#   --root_path ../datasets/ \
-#   --data_path pems-bay.csv \
-#   --model_id $model_id \
-#   --model $model_name \
-#   --data custom_extension \
-#   --features M \
-#   --seq_len $seq_len \
-#   --label_len $label_len \
-#   --pred_len $pred_len \
-#   --e_layers 3 \
-#   --d_layers 1 \
-#   --factor 3 \
-#   --enc_in 325 \
-#   --dec_in 325 \
-#   --c_out 325 \
-#   --des 'Exp' \
-#   --d_model 512\
-#   --d_ff 512\
-#   --learning_rate 0.01\
-#   --batch_size 16\
-#   --train_epochs 200 \
-#   --patience 10 \
-#   --data_missing \
-#   --loss_type mae \
-#   --loss_inverse \
-#   --itr 1 >logs/Forecasting/pems-bay_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log     
-  
-
-# done
-# done
-# done
+done
