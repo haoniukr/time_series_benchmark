@@ -138,7 +138,7 @@ python -u run.py \
   --data_missing \
   --itr 1 >logs/Forecasting/metr-la_$model_id'_'1'_'$random_seed'_'$seq_len'_'$pred_len.log
 
-#A100 ? P100?
+#A100
 python -u run.py \
   --task_name forecast \
   --is_training 1 \

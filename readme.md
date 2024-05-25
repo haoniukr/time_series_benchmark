@@ -17,8 +17,14 @@ Long-term:
  test: both
  loss: mse
  
-Long-term:
+short-term:
  train val : original values (args: --inverse)
  test: both
  loss: mae (masked)
+ 
+ 
+ 
+ A100:
+ TOTEM expect weather
+ Some MegaCRN long-term predicitons
  

@@ -26,7 +26,7 @@ model_id=$model_name
   
 python -u run.py \
   --task_name forecast \
-  --is_training 1 \
+  --is_training 0 \
   --root_path ../datasets/ \
   --data_path pems-bay.csv \
   --model_id $model_id \
